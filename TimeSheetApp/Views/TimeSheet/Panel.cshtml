@@ -1,0 +1,81 @@
+﻿@model TimeSheetApp.Models.ViewModel.MyModel
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+
+
+<div class="clocklook">
+    <div class="digitalcontainer">
+        <div class="clock-container">
+            <div class="hours">
+                <span>Hours</span>
+                <p id='hour'> 00 </p>
+            </div>
+            <div class="colon"></div>
+            <div class="minutes">
+                <span>Minutes</span>
+                <p id='minute'> 00 </p>
+            </div>
+            <div class="colon"></div>
+            <div class="seconds">
+                <span>Seconds</span>
+                <p id='second'> 00 </p>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+
+
+
+</div>
+<div class="">
+
+
+    <div class="row w-75 mx-auto">
+        <div class="col-6">
+            <form asp-action="ClockIn" asp-controller="TimeSheet">
+                <div asp-validation-summary="All"></div>
+                <button type="submit" class="w-25  mx-4 mb-2 btn btn-primary btn-block border rounded-circle" style="height:100px"> Clock In</button>
+                <input type="text" placeholder="Reason" asp-for="@Model.Username" class="d-none" />
+                <input required type="text" placeholder="Reason" asp-for="@Model.Reason" />
+            </form>
+
+        </div>
+
+        <div class="col-6">
+            <form asp-action="ClockOut" asp-controller="TimeSheet">
+                <input type="text" placeholder="Reason" asp-for="@Model.Username" class="d-none" />
+                <button type="submit" class="w-25  mt-4 mx-4 mb-2 btn btn-danger btn-block border rounded-circle" style="height:100px">ClockOut</button>
+                <input required type="text" placeholder="Reason" asp-for="@Model.Reason" />
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+@if (Model.Message is not null)
+{
+    <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@Model.Message")
+                    }
+    </script>
+}
+<script src="~/js/app.js"></script>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+

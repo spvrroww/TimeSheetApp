@@ -1,0 +1,72 @@
+﻿@model TimeSheetApp.Models.ViewModel.TimeSheetVM
+
+
+<div id="wrapper">
+    <div class="card shadow mb-2">
+        <div class="card-body">
+           DATE: @Model.Day.Date
+        </div>
+    </div>
+
+    <div class="card shadow mb-2">
+        <div class="card-body">
+            CLOCKED IN: @Model.ClockInTimes.First().ClockinTime.ToString("HH:mm:ss")
+        </div>
+    </div>
+
+    <div class="card shadow mb-2">
+        <div class="card-body">
+            CLOCKED OUT: @Model.ClockOutTimes.Last().ClockOutTime.ToString("HH:mm:ss")
+        </div>
+    </div>
+
+    <div class="card shadow mb-2">
+        <div class="card-body">
+            DURATION: @Model.ElapsedTime
+        </div>
+    </div>
+
+    <div class="card shadow mb-2">
+        <div class="card-body">
+            NO OF TIMES CLOCKED IN: @Model.ClockInTimes.Count()
+        </div>
+    </div>
+
+    <div class="card shadow mb-2">
+        <div class="card-body">
+            NO OF TIMES CLOCKED OUT: @Model.ClockOutTimes.Count()
+        </div>
+    </div>
+
+    <div class="card shadow mb-2">
+        <div class="card-body">
+            CLOCKED IN TIMELINE: @{var orderedtime = Model.ClockInTimes.OrderBy(x => x.ClockinTime);}
+            @foreach (var time in orderedtime)
+            {<p> @time.ClockinTime.ToString("HH:mm:ss")<span> for (@time.Reason)</span></p>}
+        </div>
+    </div>
+
+    <div class="card shadow mb-2">
+        <div class="card-body">
+            CLOCKED OUT TIMELINE: @{var orderedtimec = Model.ClockOutTimes.OrderBy(x => x.ClockOutTime);}
+            @foreach (var time in orderedtimec)
+            {<p> @time.ClockOutTime.ToString("HH:mm:ss")<span> For (@time.Reason)</span></p>}
+        </div>
+    </div>
+    <div class="row">
+        
+        <button asp-action="DashBoard" asp-controller="Home" asp-route-id="@Model.Id"> back</button>
+    </div>
+   
+
+</div>
+
+
+
+
+
+
+
+
+
+    

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<TimeSheetApp.Models.ViewModel.TimeSheetVM>
+
+@inject Microsoft.AspNetCore.Identity.SignInManager<Microsoft.AspNetCore.Identity.IdentityUser> _signInManager
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+    <div id="wrapper">
+        @if (_signInManager.IsSignedIn(User))
+        {
+
+
+            @*<partial name="_ClockInClockOutPartial" />*@
+            <a asp-action="Panel" asp-controller="TimeSheet" asp-route-username="@HttpContextAccessor.HttpContext.Session.GetString("ssuserid")" class=" btn btn-dark btn-outline-light text-white font-weight-bold"> Clock In or Out Here</a>
+
+
+
+
+
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">TimeSheet</h1>
+                <p class="mb-4">
+                   
+                                                                          
+                </p>
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Clock in</th>
+                                        <th>Clock Out</th>
+                                        <th>Duration</th>
+                                        <th>Clock In Times</th>
+                                        <th>Clock Out Times</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+
+                                        <th>Date</th>
+                                        <th>Clock in</th>
+                                        <th>Clock Out</th>
+                                        <th>Duration</th>
+                                        <th>Clock In Times</th>
+                                        <th>Clock Out Times</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+
+                                    @foreach (var sheet in Model)
+                                    {
+                                        <tr>
+                                            <td>@sheet.Day.ToString("dd/MM/yyyy")</td>
+                                            <td>@sheet.ClockInTimes.First().ClockinTime.ToString("HH:mm")</td>
+                                            <td>@sheet.ClockOutTimes.Last().ClockOutTime.ToString("HH:mm")</td>
+                                            <td>@sheet.ElapsedTime</td>
+                                            <td>
+                                                @foreach (var time in sheet.ClockInTimes)
+                                                {
+                                                    <p>@time.ClockinTime.ToString("HH:mm") for @time.Reason</p>
+                                                }
+                                            </td>
+                                            <td>
+                                                @foreach (var timeout in sheet.ClockOutTimes)
+                                                {
+                                                    <p>@timeout.ClockOutTime.ToString("HH:mm") for @timeout.Reason</p>
+                                                }
+                                            </td>
+
+
+
+                                            <td>
+                                                <a asp-action="Details" asp-controller="Home" asp-route-Id="@sheet.Id"> Details</a>
+                                            </td>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <p>
+                <a asp-action="Index" asp-controller="Home">Please LogIn</a>
+
+            </p>
+        }
+
+    </div>
